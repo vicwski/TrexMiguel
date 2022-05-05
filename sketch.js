@@ -9,7 +9,7 @@ var cloudImg
 var cloudsGroup, obstaclesGroup
 var gameOver, gameOverImg
 var restart, restartImg
-
+var checkPointSound, dieSound, jumpSound
 var score = 0
 
 function preload() {
@@ -34,6 +34,8 @@ function preload() {
 
   gameOverImg = loadImage('sprites/gameOver.png')
   restartImg = loadImage('sprites/restart.png')
+
+  checkPointSound = loadSound('sounds/checkpoint.mp3')
 }
 
 function setup() {
@@ -42,6 +44,7 @@ function setup() {
   //crie um sprite de trex
   trex = createSprite(50, 160, 20, 50)
   trex.addAnimation('running', trex_running)
+  trex.addAnimation('collided', trex_collided)
   trex.scale = 0.5
   //Raio colisor do trex
   trex.setCollider('circle', 0, 0, 40)
@@ -78,6 +81,10 @@ function draw() {
     //pontuação
     score += Math.round(World.frameRate / 60)
 
+    if (score > 0 && score % 600 === 0) {
+      checkPointSound.play()
+    }
+
     //invisivilidade das sprites gameOver e restart
     gameOver.visible = false
     restart.visible = false
@@ -113,6 +120,9 @@ function draw() {
 
     //Tirando a velocidade Y do trex
     trex.velocityY = 0
+
+    //mudar a animação
+    trex.changeAnimation('collided')
 
     //Parando o solo e os grupos de sprite quando o estado do jogo é END
     ground.velocityX = 0
