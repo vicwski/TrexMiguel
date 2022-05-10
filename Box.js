@@ -1,13 +1,14 @@
 class Box {
-  constructor() {
-    this.x = 100
-    this.y = 200
-    this.w = 50
-    this.h = 50
+  constructor(x, y, w, h, vx) {
+    this.x = x
+    this.y = y
+    this.w = w
+    this.h = h
+    this.vx = vx
   }
 
-  xSpeed(x){
-    this.x += x
+  xSpeed(){
+    this.x += this.vx
   }
 
   display() {
